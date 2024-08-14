@@ -1,15 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
 import DrawerPage from './pages/DrawerPage';
+import Navbar from './components/Navbar'; 
+import FinalGroups from './pages/FinalGroups';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/drawer" element={<DrawerPage />} />
-      </Routes>
+      <div>
+        <Navbar /> 
+        <Routes>
+          <Route path="/" element={<DrawerPage />} />
+          <Route path="/groups" element={<FinalGroups />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
