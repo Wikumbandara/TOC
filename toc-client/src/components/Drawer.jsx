@@ -27,30 +27,16 @@ const Drawer = () => {
   const [shuffledLabels, setShuffledLabels] = useState([]);
 
   useEffect(() => {
-    // Retrieve shuffled labels and squares state from localStorage
-    const savedLabels = localStorage.getItem('shuffledLabels');
-    const savedSquares = localStorage.getItem('squaresState');
-
-    if (savedLabels) {
-      setShuffledLabels(JSON.parse(savedLabels));
-    } else {
-      const newLabels = generateShuffledLabels();
-      setShuffledLabels(newLabels);
-      localStorage.setItem('shuffledLabels', JSON.stringify(newLabels));
-    }
-
-    if (savedSquares) {
-      setSquares(JSON.parse(savedSquares));
-    } else {
-      localStorage.setItem('squaresState', JSON.stringify(Array(24).fill(false)));
-    }
+    // Generate shuffled labels and reset squares state on component mount
+    const newLabels = generateShuffledLabels();
+    setShuffledLabels(newLabels);
+    setSquares(Array(24).fill(false)); // Reset squares to initial state
   }, []);
 
   const toggleSquare = (index) => {
     const newSquares = [...squares];
     newSquares[index] = !newSquares[index];
     setSquares(newSquares);
-    localStorage.setItem('squaresState', JSON.stringify(newSquares)); // Save state to localStorage
   };
 
   return (
