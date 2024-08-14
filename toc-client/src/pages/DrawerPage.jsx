@@ -5,6 +5,7 @@ import TeamList from '../components/TeamList';
 import Group from '../components/Group';
 import Drawer from '../components/Drawer';
 import { teamsList } from '../components/TeamsData';
+import { useNavigate } from 'react-router-dom';
 
 const groupsInitialState = {
   A: Array(4).fill(null),
@@ -20,7 +21,10 @@ const DrawerPage = () => {
   const [availableTeams, setAvailableTeams] = useState(teamsList);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [dragging, setDragging] = useState(false);
-  const groupsDocId = "tournament_groups"; // Document ID for tracking groups
+  const [loading, setLoading] = useState(false); 
+  const groupsDocId = "tournament_groups"; 
+  const finalGroupsDocId = "final_groups"; 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -95,6 +99,19 @@ const DrawerPage = () => {
     e.preventDefault();
   };
 
+  const handleComplete = async () => {
+    setLoading(true); 
+    try {
+      await setDoc(doc(db, 'tournaments', finalGroupsDocId), { groups });
+      console.log('Final groups saved to Firestore');
+      navigate('/groups'); 
+    } catch (error) {
+      console.error('Error saving final groups: ', error);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-10">
       <div className="mb-8">
@@ -123,6 +140,22 @@ const DrawerPage = () => {
           ))}
         </div>
       </div>
+
+      <div className="text-center mt-8">
+        <button
+          onClick={handleComplete}
+          className="px-4 py-2 bg-blue-800 text-white font-bold rounded-lg shadow-md hover:bg-blue-600"
+          disabled={loading} 
+        >
+          {loading ? 'Processing...' : 'Complete'}
+        </button>
+      </div>
+
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="w-16 h-16 border-4 border-blue-800 border-t-transparent border-solid rounded-full animate-spin"></div>
+        </div>
+      )}
     </div>
   );
 };

@@ -27,14 +27,30 @@ const Drawer = () => {
   const [shuffledLabels, setShuffledLabels] = useState([]);
 
   useEffect(() => {
-    // Generate and set shuffled labels on component mount
-    setShuffledLabels(generateShuffledLabels());
+    // Retrieve shuffled labels and squares state from localStorage
+    const savedLabels = localStorage.getItem('shuffledLabels');
+    const savedSquares = localStorage.getItem('squaresState');
+
+    if (savedLabels) {
+      setShuffledLabels(JSON.parse(savedLabels));
+    } else {
+      const newLabels = generateShuffledLabels();
+      setShuffledLabels(newLabels);
+      localStorage.setItem('shuffledLabels', JSON.stringify(newLabels));
+    }
+
+    if (savedSquares) {
+      setSquares(JSON.parse(savedSquares));
+    } else {
+      localStorage.setItem('squaresState', JSON.stringify(Array(24).fill(false)));
+    }
   }, []);
 
   const toggleSquare = (index) => {
     const newSquares = [...squares];
     newSquares[index] = !newSquares[index];
     setSquares(newSquares);
+    localStorage.setItem('squaresState', JSON.stringify(newSquares)); // Save state to localStorage
   };
 
   return (
@@ -54,7 +70,7 @@ const Drawer = () => {
               <img 
                 src={placeholderImage} 
                 alt="Placeholder" 
-                className="w-fu h-full object-cover rounded-lg" 
+                className="w-full h-full object-cover rounded-lg" 
               />
             )}
           </div>
