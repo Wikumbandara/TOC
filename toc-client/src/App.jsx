@@ -1,7 +1,17 @@
-export default function App() {
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import DrawerPage from './pages/DrawerPage';
+
+function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/drawer" element={<DrawerPage />} />
+      </Routes>
+    </Router>
+  );
 }
+
+export default App;
