@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../service/firebase'; // Ensure your Firebase configuration is correctly imported
+import { db } from '../service/firebase';
 
 const FinalGroups = () => {
   const [finalGroups, setFinalGroups] = useState({});
@@ -10,11 +10,9 @@ const FinalGroups = () => {
     const fetchFinalGroups = async () => {
       try {
         const docRef = doc(db, 'tournaments', documentId);
-        console.log('Fetching document from:', docRef.path); // Log document path
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          console.log('Document data:', docSnap.data()); // Log document data
           setFinalGroups(docSnap.data().groups || {});
         } else {
           console.log('No such document!');
@@ -27,28 +25,38 @@ const FinalGroups = () => {
     fetchFinalGroups();
   }, []);
 
+  // Sort groups by keys in ascending order
+  const sortedGroupKeys = Object.keys(finalGroups).sort();
+
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Final Group Composition</h1>
-      <div className="flex flex-wrap justify-around gap-4">
-        {Object.keys(finalGroups).length > 0 ? (
-          Object.keys(finalGroups).map((groupKey) => (
-            <div key={groupKey} className="p-4 border border-gray-300 rounded-lg shadow-lg w-full sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white">
-              <h2 className="text-xl font-bold mb-4 text-gray-700 border-b border-gray-300 pb-2">{groupKey}</h2>
-              <ul>
-                {finalGroups[groupKey].map((team, index) => (
-                  <li key={index} className="flex items-center gap-2 mb-2">
-                    <img src={team.logo} alt={team.name} className="w-12 h-12 rounded-full border border-gray-300" />
-                    <p className="font-medium text-gray-800">{team.name}</p>
-                  </li>
-                ))}
-              </ul>
+    <div className="min-h-screen bg-gray-100 p-6 md:p-12">
+      <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-800">Final Group Composition</h1>
+      {sortedGroupKeys.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {sortedGroupKeys.map((groupKey) => (
+            <div key={groupKey} className="bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
+              <div className="bg-gray-50 p-4 border-b border-gray-200">
+                <h2 className="text-2xl font-semibold text-gray-700">{groupKey}</h2>
+              </div>
+              <div className="p-4">
+                <table className="w-full divide-y divide-gray-200">
+                  <tbody>
+                    {finalGroups[groupKey].map((team, index) => (
+                      <tr key={index} className="bg-white hover:bg-gray-50 transition-colors duration-200">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {team?.name || 'Unknown Team'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          ))
-        ) : (
-          <p className="text-gray-500 text-center">No data available.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500 text-center">No data available.</p>
+      )}
     </div>
   );
 };
