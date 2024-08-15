@@ -16,7 +16,7 @@ import TheDuckDodgers from '../assets/logo.jpg';
 import KaawayiOhela from '../assets/logo.jpg';
 import PowerHitters from '../assets/logo.jpg';
 import EagleKnights from '../assets/logo.jpg';
-import AmaviNonPractice from '../assets/Amavisa Non-Practice .png';
+import AmaviNonPractice from '../assets/අම.වි.ස Non- Practice .png';
 import AmaviEksath from '../assets/logo.jpg';
 import BawanaBulls from '../assets/logo.jpg';
 import TheBenchwarmers from '../assets/logo.jpg';

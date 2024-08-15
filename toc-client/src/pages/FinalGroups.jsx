@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../service/firebase';
 
@@ -29,6 +30,11 @@ const FinalGroups = () => {
   const sortedGroupKeys = Object.keys(finalGroups).sort();
 
   return (
+    <>
+    <Helmet>
+        <title>Final Groups</title>
+        <meta name="description" content="This is the Final Group Page" />
+      </Helmet>
     <div className="min-h-screen bg-gray-100 p-6 md:p-12">
       <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-800">Final Group Composition</h1>
       {sortedGroupKeys.length > 0 ? (
@@ -58,6 +64,7 @@ const FinalGroups = () => {
         <p className="text-gray-500 text-center">No data available.</p>
       )}
     </div>
+    </>
   );
 };
 
