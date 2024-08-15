@@ -44,7 +44,7 @@ const FinalGroups = () => {
                     {finalGroups[groupKey].map((team, index) => (
                       <tr key={index} className="bg-white hover:bg-gray-50 transition-colors duration-200">
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {team?.name || 'Unknown Team'}
+                          {`A${index + 1}`} - {team?.name || 'Unknown Team'}
                         </td>
                       </tr>
                     ))}
