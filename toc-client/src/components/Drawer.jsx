@@ -1,25 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import placeholderImage from '../assets/logo.jpg'; 
 
-// Function to generate shuffled labels
+// Function to generate specific label sets and shuffle them
 const generateShuffledLabels = () => {
-  const letters = 'ABCDEFGH'; // Letters from A to F
-  const cols = 3; // Number of columns for each letter (1-4)
-  const labels = [];
+  const labelsSet1 = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1'];
+  const labelsSet2 = ['A2', 'B2', 'C2', 'D2'];
+  const allLabels = [];
 
-  for (let i = 0; i < letters.length; i++) {
-    for (let j = 1; j <= cols; j++) {
-      labels.push(`${letters[i]}${j}`);
+  // Generate all possible labels from A1 to H3
+  for (let i = 1; i <= 3; i++) {
+    for (let j = 0; j < 8; j++) {
+      allLabels.push(`${'ABCDEFGH'[j]}${i}`);
     }
   }
 
-  // Shuffle the labels
-  for (let i = labels.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [labels[i], labels[j]] = [labels[j], labels[i]];
-  }
+  // Filter out labels that are already used in labelsSet1 and labelsSet2
+  const remainingLabels = allLabels.filter(
+    (label) => !labelsSet1.includes(label) && !labelsSet2.includes(label)
+  );
 
-  return labels;
+  // Shuffle the label sets
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
+
+  shuffleArray(labelsSet1);
+  shuffleArray(labelsSet2);
+  shuffleArray(remainingLabels);
+
+  // Combine the sets with specific positions for each label set
+  return [
+    ...labelsSet1.slice(0, 8), // First 8 boxes (A1 to H1)
+    ...labelsSet2.slice(0, 4), // Next 4 boxes (A2 to D2)
+    ...remainingLabels.slice(0, 12), // Remaining boxes (random selection)
+  ];
 };
 
 const Drawer = () => {

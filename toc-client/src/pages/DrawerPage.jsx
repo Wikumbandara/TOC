@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../service/firebase';
 import TeamList from '../components/TeamList';
@@ -115,6 +116,11 @@ const DrawerPage = () => {
   };
 
   return (
+    <>
+    <Helmet>
+        <title>TOC Drawer</title>
+        <meta name="description" content="This is the drawer page where you can click and reveal labels." />
+      </Helmet>
     <div className="min-h-screen bg-gray-100 p-10">
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Overview of the Tournament Draw Process</h2>
@@ -159,6 +165,7 @@ const DrawerPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
