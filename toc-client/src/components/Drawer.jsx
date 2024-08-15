@@ -3,8 +3,8 @@ import placeholderImage from '../assets/logo.jpg';
 
 // Function to generate shuffled labels
 const generateShuffledLabels = () => {
-  const letters = 'ABCDEF'; // Letters from A to F
-  const cols = 4; // Number of columns for each letter (1-4)
+  const letters = 'ABCDEFGH'; // Letters from A to F
+  const cols = 3; // Number of columns for each letter (1-4)
   const labels = [];
 
   for (let i = 0; i < letters.length; i++) {
