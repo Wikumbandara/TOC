@@ -8,12 +8,14 @@ import { teamsList } from '../components/TeamsData';
 import { useNavigate } from 'react-router-dom';
 
 const groupsInitialState = {
-  A: Array(4).fill(null),
-  B: Array(4).fill(null),
-  C: Array(4).fill(null),
-  D: Array(4).fill(null),
-  E: Array(4).fill(null),
-  F: Array(4).fill(null)
+  A: Array(3).fill(null),
+  B: Array(3).fill(null),
+  C: Array(3).fill(null),
+  D: Array(3).fill(null),
+  E: Array(3).fill(null),
+  F: Array(3).fill(null),
+  G: Array(3).fill(null),
+  H: Array(3).fill(null)
 };
 
 const DrawerPage = () => {
